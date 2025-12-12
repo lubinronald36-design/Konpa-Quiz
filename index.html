@@ -1,343 +1,60 @@
-<!DOCTYPE html>
-<html lang="ht">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konpa Quiz</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #000;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-        }
-
-        button {
-            padding: 12px 20px;
-            background: #ff0066;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        input {
-            padding: 10px;
-            width: 80%;
-            margin-top: 10px;
-            border-radius: 6px;
-            border: none;
-            font-size: 16px;
-        }
-
-        h1 {
-            color: #ff66cc;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>Konpa Quiz</h1>
-
-    <div id="quiz"></div>
-
-    <button id="submit">Reponn</button>
-
-    <p id="result"></p>
-</div>
-
-<!-- AUDIO — make sure music.mp3 is in same folder -->
-<audio id="music" src="music.mp3"></audio>
-
-<script>
-    const questions = [
-        { q: "Ki gwoup ki rele Papa Konpa?", a: "nemours jean-baptiste" },
-        { q: "Ki enstriman ki pi popilè nan konpa?", a: "gitar" },
-        { q: "Ki peyi ki kreye konpa?", a: "haiti" },
-        { q: "Ki non dans ki mache ak konpa?", a: "kompa love" },
-        { q: "Ki ane konpa te kreye?", a: "1955" },
-        { q: "Ki rit konpa itilize?", a: "tanbou" }
-    ];
-
-    let current = 0;
-
-    function loadQuestion() {
-        document.getElementById("quiz").innerHTML = `
-            <h2>${questions[current].q}</h2>
-            <input id="answer" placeholder="Ekri repons lan..." />
-        `;
-    }
-
-    loadQuestion();
-
-    document.getElementById("submit").addEventListener("click", () => {
-        const userAnswer = document.getElementById("answer").value.toLowerCase().trim();
-        const correct = questions[current].a.toLowerCase();
-
-        if (userAnswer === correct) {
-            current++;
-
-            if (current === 6) {
-                // 🎵 Start 2-minute music
-                let music = document.getElementById("music");
-                music.currentTime = 0;
-                music.play();
-
-                // Stop after exactly 2 minutes (120 seconds)
-                setTimeout(() => { 
-                    music.pause(); 
-                }, 120000);
-
-                document.getElementById("result").innerHTML = "🎉 GOOD JOB! Mizik la ap jwe pou 2 minit!";
-
-                document.getElementById("quiz").innerHTML = "<h2>Fen Quiz la! Bravo!</h2>";
-
-            } else {
-                document.getElementById("result").innerHTML = "✔ Bon travay! Kontinye...";
-                loadQuestion();
-            }
-        } else {
-            // Wrong answer
-            document.getElementById("result").innerHTML = "❌ Move repons. Eseye ankò!";
-        }
-    });
-</script>
-
-</body>
-</html>
-
-On Fri, Dec 12, 2025, 3:33 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
 <!doctype html>
 <html lang="ht">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Konpa Quiz — Konpa Answer Game</title>
-
+<title>Konpa Quiz — Sing & Record (fade-in 7s → play to 90s)</title>
 <style>
-/* (style untouched — same as your version) */
-</style>
+:root{
+  --bg:#071126; --card:#0b1220; --accent:#ff6b35; --muted:#94a3b8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(180deg,#071126 0%, #0b2340 100%);
+  color:#e6eef8; padding:20px; min-height:100vh;
+}
+.container{ max-width:920px; margin:0 auto; padding:20px; }
+.header{ display:flex; flex-direction:column; gap:6px; margin-bottom:16px;}
+.header h1{ margin:0; color:#ffd6c9; }
+.header p{ margin:0; color:var(--muted); font-size:14px; }
 
-</head>
-<body>
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px; padding:16px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.03);
+}
 
-<div class="wrap">
-    
-    <header>
-        <h1>Konpa Quiz — Byenveni!</h1>
-        <p><strong>Konpa Di Ducarmel ehben quiz teacher Ronald pou nou kapab tande gratis.</strong></p>
-        <p>Repon kesyon yo sou Konpa. Si w repon kòrèk, ou wè "Good job!". Si w pa repon kòrèk, mizik la jwe pou kèk segonn epi li montre "Waste time!".</p>
-    </header>
+.q-num{ display:inline-flex; align-items:center; justify-content:center;
+  width:38px;height:38px;border-radius:8px;background:linear-gradient(90deg,var(--accent),#ff9a6b);
+  color:#071126;font-weight:700;margin-right:10px; }
 
-    <!-- … ALL QUESTIONS SAME … -->
+.choices{ display:grid; gap:8px; margin-top:10px; }
+.choice{ background:rgba(255,255,255,0.02); padding:10px;border-radius:10px; cursor:pointer; display:flex; align-items:center; }
+.choice input{ margin-right:10px; accent-color:var(--accent); }
 
-    <footer>
-        <div class="small">© Konpa Answer Game</div>
-        <div class="small">Bon chans! Réponn epi tcheke mizik si gen erè.</div>
-    </footer>
+.btn{ margin-top:12px;padding:10px 14px;border-radius:10px;background:var(--accent); color:#071126;border:none; font-weight:700; cursor:pointer; }
+.resultBox{ margin-top:12px; padding:14px; border-radius:10px; background: linear-gradient(180deg, rgba(10,20,30,0.6), rgba(6,10,15,0.45)); border: 1px solid rgba(255,255,255,0.03); color:#e6f7ee; }
+.resultGood{ color:#7fe3b8; font-weight:700; }
+.resultBad{ color:#ff9a9a; font-weight:700; }
 
-    <!-- AUDIO -->
-    <audio id="konpaMusic" preload="auto">
-        <source src="ducarmel.mp3" type="audio/mpeg">
-        Okenn audio pa disponib.
-    </audio>
+.controls{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+.small{ color:var(--muted); font-size:13px; }
 
-</div>
-
-<script>
-(function(){
-
-    const audio = document.getElementById('konpaMusic');
-
-    // Modified: play only from 7s to 45s
-    const playBad = () => {
-        audio.currentTime = 7;   // Start at 7 seconds
-        audio.play();
-
-        // Stop at 45 seconds → 45 - 7 = 38 seconds
-        setTimeout(() => {
-            audio.pause();
-        }, 38000);
-    };
-
-    function markResult(id, ok, text){
-        const el = document.getElementById(id);
-        el.textContent = text;
-        el.classList.remove('good','bad');
-        el.classList.add(ok ? 'good' : 'bad');
-    }
-
-    document.querySelectorAll('.btn').forEach(btn=>{
-        btn.addEventListener('click', function(){
-            const q = this.getAttribute('data-q');
-
-            if(q==='6'){
-                const val = document.getElementById('q6text').value.trim();
-                if(val.length>0){
-                    markResult('r6', true, 'Mèsi! Good job!');
-                } else {
-                    markResult('r6', false, 'Waste time! Ekri yon fraz.');
-                    playBad();
-                }
-                return;
-            }
-
-            const chosen = document.querySelector('input[name="q'+q+'"]:checked');
-            if(!chosen){
-                markResult('r'+q, false, 'Chwazi yon repons tanpri.');
-                return;
-            }
-
-            const val = chosen.value;
-            const correctMap = {
-                '1':'ayiti',
-                '2':'nemours',
-                '3':'kreyol',
-                '4':'dans',
-                '5':'sakso'
-            };
-
-            const ok = (val === correctMap[q]);
-
-            if(ok){
-                markResult('r'+q, true, 'Good job!');
-            } else {
-                markResult('r'+q, false, 'Waste time!');
-                playBad();
-            }
-
-        });
-    });
-})();
-</script>
-
-</body>
-</html>
-
-On Fri, Dec 12, 2025, 3:10 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
-<!doctype html>
-<html lang="ht">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Konpa Quiz — Konpa Answer Game</title>
-<style>
-  :root{
-    --bg:#0f1724;
-    --card:#0b1220;
-    --accent:#ff6b35;
-    --muted:#94a3b8;
-    --glass: rgba(255,255,255,0.03);
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: "Segoe UI", Roboto, Arial, sans-serif;
-    background: linear-gradient(180deg,#071126 0%, #0b2340 100%);
-    color:#e6eef8;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    padding:28px;
-    min-height:100vh;
-  }
-  .wrap{
-    max-width:880px;
-    margin:0 auto;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:16px;
-    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-    padding:26px;
-    border: 1px solid rgba(255,255,255,0.03);
-  }
-  header h1{ margin:0; font-size:28px; letter-spacing:0.4px; }
-  header p{ margin:8px 0 18px; color:var(--muted); }
-
-  .question{
-    background:var(--card);
-    border-radius:12px;
-    padding:16px;
-    margin-bottom:14px;
-    border:1px solid rgba(255,255,255,0.02);
-    transform-origin:center;
-    transition: transform .22s ease, box-shadow .22s ease;
-  }
-  .question:hover{ transform:translateY(-4px); box-shadow: 0 10px 30px rgba(2,6,23,0.5); }
-  .q-head{ display:flex; align-items:center; gap:12px; }
-  .q-num{
-    width:40px; height:40px; border-radius:8px; background:linear-gradient(90deg,var(--accent), #ff9a6b);
-    display:flex; align-items:center; justify-content:center; font-weight:700; color:#071126;
-  }
-  .q-title{ font-size:16px; margin:0; }
-  .choices{ margin-top:12px; display:grid; gap:8px; }
-  .choice{
-    background:var(--glass); padding:10px 12px; border-radius:10px; cursor:pointer;
-    border:1px solid rgba(255,255,255,0.025); transition: background .15s, transform .12s;
-  }
-  .choice:hover{ transform:translateY(-3px); background: rgba(255,255,255,0.03); }
-  .choice input{ margin-right:10px; accent-color: var(--accent); }
-
-  .btn{
-    margin-top:12px; padding:10px 14px; border-radius:10px; background:var(--accent);
-    color:#071126; border:none; font-weight:700; cursor:pointer;
-  }
-  .result{
-    margin-top:10px; font-weight:700; min-height:22px;
-    transition: opacity .18s;
-  }
-  .good{ color:#7fe3b8; }
-  .bad{ color:#ff8a8a; }
-
-  footer{ margin-top:18px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; align-items:center; }
-  .small{ font-size:13px; color:var(--muted); }
-
-  /* answer text box */
-  textarea{ width:100%; min-height:90px; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit; resize:vertical; }
-
-  /* responsive */
-  @media (max-width:520px){
-    body{ padding:18px; }
-    .wrap{ padding:18px; }
-    header h1{ font-size:20px; }
-  }
-
-  /* subtle entry animation */
-  .question{ opacity:0; transform: translateY(10px); animation: popin .45s forwards; }
-  .question:nth-child(1){ animation-delay: .05s; }
-  .question:nth-child(2){ animation-delay: .12s; }
-  .question:nth-child(3){ animation-delay: .19s; }
-  .question:nth-child(4){ animation-delay: .26s; }
-  .question:nth-child(5){ animation-delay: .33s; }
-  .question:nth-child(6){ animation-delay: .40s; }
-  @keyframes popin { to { opacity:1; transform: translateY(0); } }
+@media (max-width:600px){
+  .controls{ flex-direction:column; }
+}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <div class="container">
+    <div class="header">
       <h1>Konpa Quiz — Byenveni!</h1>
-      <p>Repon kesyon yo sou Konpa. Si w repon kòrèk, ou wè "Good job!". Si w pa repon kòrèk, mizik la jwe pou kèk segonn epi li montre "Waste time!".</p>
-    </header>
+      <p class="small">Konpa Di Ducarmel ehben quiz teacher Ronald — reponn 6 kesyon. Sou fen (q6) ou ka chante sou mizik la; mizik la kòmanse nan 7s ak yon fade-in pa etap, epi li jwe jiska 90s kote lead singer antre.</p>
+    </div>
 
-    <!-- QUESTIONS -->
-    <!-- 1 -->
-    <section class="question">
-      <div class="q-head">
-        <div class="q-num">1</div>
-        <div>
-          <p class="q-title"><strong>Ki peyi Konpa soti?</strong></p>
-        </div>
-      </div>
+    <!-- QUESTIONS 1..5 -->
+    <div class="card">
+      <div><span class="q-num">1</span><strong>Ki peyi Konpa soti?</strong></div>
       <div class="choices">
         <label class="choice"><input type="radio" name="q1" value="ayiti"> Ayiti</label>
         <label class="choice"><input type="radio" name="q1" value="repdom"> Rep. Dominikèn</label>
@@ -345,17 +62,11 @@ On Fri, Dec 12, 2025, 3:10 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
         <label class="choice"><input type="radio" name="q1" value="puerto"> Pòtoriko</label>
       </div>
       <button class="btn" data-q="1">Submit</button>
-      <div class="result" id="r1"></div>
-    </section>
+      <div id="r1" class="small"></div>
+    </div>
 
-    <!-- 2 -->
-    <section class="question">
-      <div class="q-head">
-        <div class="q-num">2</div>
-        <div>
-          <p class="q-title"><strong>Kiyès yo rekonèt kòm youn nan kreyatè Konpa (fondatè)</strong></p>
-        </div>
-      </div>
+    <div class="card">
+      <div><span class="q-num">2</span><strong>Kiyès yo rekonèt kòm youn nan kreyatè Konpa (fondatè)?</strong></div>
       <div class="choices">
         <label class="choice"><input type="radio" name="q2" value="nemours"> Nemours Jean-Baptiste</label>
         <label class="choice"><input type="radio" name="q2" value="aristide"> Jean-Bertrand Aristide</label>
@@ -363,17 +74,11 @@ On Fri, Dec 12, 2025, 3:10 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
         <label class="choice"><input type="radio" name="q2" value="boukman"> Boukman Eksperyans</label>
       </div>
       <button class="btn" data-q="2">Submit</button>
-      <div class="result" id="r2"></div>
-    </section>
+      <div id="r2" class="small"></div>
+    </div>
 
-    <!-- 3 -->
-    <section class="question">
-      <div class="q-head">
-        <div class="q-num">3</div>
-        <div>
-          <p class="q-title"><strong>Ki lang konpa chante souvan?</strong></p>
-        </div>
-      </div>
+    <div class="card">
+      <div><span class="q-num">3</span><strong>Ki lang konpa chante souvan?</strong></div>
       <div class="choices">
         <label class="choice"><input type="radio" name="q3" value="kreyol"> Kreyòl</label>
         <label class="choice"><input type="radio" name="q3" value="french"> Franse</label>
@@ -381,17 +86,11 @@ On Fri, Dec 12, 2025, 3:10 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
         <label class="choice"><input type="radio" name="q3" value="spanish"> Panyòl</label>
       </div>
       <button class="btn" data-q="3">Submit</button>
-      <div class="result" id="r3"></div>
-    </section>
+      <div id="r3" class="small"></div>
+    </div>
 
-    <!-- 4 -->
-    <section class="question">
-      <div class="q-head">
-        <div class="q-num">4</div>
-        <div>
-          <p class="q-title"><strong>Ki aktivite ou pi souvan wè ak mizik Konpa?</strong></p>
-        </div>
-      </div>
+    <div class="card">
+      <div><span class="q-num">4</span><strong>Ki aktivite ou pi souvan wè ak mizik Konpa?</strong></div>
       <div class="choices">
         <label class="choice"><input type="radio" name="q4" value="dans"> Danse</label>
         <label class="choice"><input type="radio" name="q4" value="lekòl"> Lekòl</label>
@@ -399,17 +98,11 @@ On Fri, Dec 12, 2025, 3:10 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
         <label class="choice"><input type="radio" name="q4" value="sport"> Spò</label>
       </div>
       <button class="btn" data-q="4">Submit</button>
-      <div class="result" id="r4"></div>
-    </section>
+      <div id="r4" class="small"></div>
+    </div>
 
-    <!-- 5 -->
-    <section class="question">
-      <div class="q-head">
-        <div class="q-num">5</div>
-        <div>
-          <p class="q-title"><strong>Ki enstriman tipik nan yon gwoup Konpa?</strong></p>
-        </div>
-      </div>
+    <div class="card">
+      <div><span class="q-num">5</span><strong>Ki enstriman tipik nan yon gwoup Konpa?</strong></div>
       <div class="choices">
         <label class="choice"><input type="radio" name="q5" value="sakso"> Saksofon / sax</label>
         <label class="choice"><input type="radio" name="q5" value="tanbou"> Tanbou sèl</label>
@@ -417,106 +110,220 @@ On Fri, Dec 12, 2025, 3:10 PM Ronald Lubin <lubinronald36@gmail.com> wrote:
         <label class="choice"><input type="radio" name="q5" value="vok"> Vokal san enstriman</label>
       </div>
       <button class="btn" data-q="5">Submit</button>
-      <div class="result" id="r5"></div>
-    </section>
+      <div id="r5" class="small"></div>
+    </div>
 
-    <!-- 6 (open) -->
-    <section class="question">
-      <div class="q-head">
-        <div class="q-num">6</div>
-        <div>
-          <p class="q-title"><strong>Dernye kesyon (ekri yon repons kout): Ki bagay ou renmen pi plis nan Konpa?</strong></p>
-        </div>
+    <!-- Q6 open with recording & final area -->
+    <div class="card" id="q6card">
+      <div><span class="q-num">6</span><strong>Dernye kesyon (ekri yon repons kout): Ki bagay ou renmen pi plis nan Konpa?</strong></div>
+      <textarea id="q6text" placeholder="Ekri yon fraz kout..." style="width:100%;margin-top:10px;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:inherit"></textarea>
+      <div class="controls">
+        <button class="btn" data-q="6" id="q6submit">Submit</button>
+        <button class="btn" id="startSing" style="background:#2b9dff">Start Singing (Record)</button>
+        <button class="btn" id="stopSing" style="background:#888" disabled>Stop</button>
       </div>
-      <textarea id="q6text" placeholder="Ekri yon fraz kout..."></textarea>
-      <button class="btn" data-q="6">Submit</button>
-      <div class="result" id="r6"></div>
-    </section>
+      <div id="r6" class="small"></div>
 
-    <footer>
-      <div class="small">© Konpa Answer Game</div>
-      <div class="small">Bon chans! Contact teache Ronald: lubinronald36@gmail.com.</div>
-    </footer>
+      <div id="finalArea" class="resultBox" style="display:none;">
+        <div id="finalMsg" class="resultGood"></div>
+        <div id="userText" style="margin-top:8px;color:#dfeff4;"></div>
+        <div class="controls" style="margin-top:12px;">
+          <button class="btn" id="playMix" style="background:#7ee3b8;color:#071126">Play Intro (7s → fade-in → stop at 90s)</button>
+          <button class="btn" id="downloadRec" style="background:#ffb86b" disabled>Download Recording</button>
+        </div>
+        <div id="recordControls" style="margin-top:10px;color:var(--muted); font-size:13px;"></div>
+        <audio id="playback" controls style="width:100%; margin-top:10px; display:none;"></audio>
+      </div>
+    </div>
 
-    <!-- audio (place your mp3 in audio/ducarmel.mp3 on repo) -->
-    <audio id="konpaMusic" preload="auto">
-      <source src="ducarmel.mp3" type="audio/mpeg">
-      Okenn audio pa disponib.
-    </audio>
+    <div style="margin-top:16px;" class="small">© Konpa Answer Game — Mete <code>ducarmel.mp3</code> nan menm folder ak paj sa a (non egzak).</div>
   </div>
 
-<script>
-/* Correct answers:
- q1 -> ayiti
- q2 -> nemours
- q3 -> kreyol
- q4 -> dans
- q5 -> sakso
- q6 -> open text (any text counts as submitted)
-*/
-(function(){
-  const audio = document.getElementById('konpaMusic');
-  const playBad = (ms=7000) => {
-    audio.currentTime = 0;
-    const p = audio.play();
-    if (p !== undefined) {
-      p.catch(()=>{ /* autoplay blocked possibly, user clicked button already so should be fine */});
-    }
-    setTimeout(()=>{ try{ audio.pause(); }catch(e){} }, ms);
-  };
+  <!-- place ducarmel.mp3 in same folder -->
+  <audio id="konpaMusic" preload="auto">
+    <source src="ducarmel.mp3" type="audio/mpeg">
+    Okenn audio pa disponib.
+  </audio>
 
-  function markResult(id, ok, text){
-    const el = document.getElementById(id);
-    el.textContent = text;
-    el.classList.remove('good','bad');
-    el.classList.add(ok ? 'good' : 'bad');
+<script>
+/* Correct answers map for Q1..Q5 */
+const correctMap = {'1':'ayiti','2':'nemours','3':'kreyol','4':'dans','5':'sakso'};
+
+function mark(id, ok, text){
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = ok ? 'resultGood small' : 'resultBad small';
+}
+
+/* QUESTIONS handlers */
+document.querySelectorAll('.btn[data-q]').forEach(btn=>{
+  btn.addEventListener('click', function(){
+    const q = this.getAttribute('data-q');
+    if(q === '6'){ handleQ6Submit(); return; }
+    const chosen = document.querySelector('input[name="q'+q+'"]:checked');
+    if(!chosen){ mark('r'+q,false,'Chwazi yon repons tanpri.'); return; }
+    const val = chosen.value;
+    const ok = (val === correctMap[q]);
+    if(ok){ mark('r'+q,true,'Good job!'); } else { mark('r'+q,false,'Waste time!'); }
+  });
+});
+
+/* Q6 + AUDIO/RECORDING behavior:
+   - When user submits text (q6) we show finalArea.
+   - PlayIntro: start music at 7s, fade-in step-by-step, stop at 90s.
+   - Start Singing: request mic, start recording at same time as PlayIntro; recording will stop when music stops (90s) or on Stop click.
+*/
+
+const music = document.getElementById('konpaMusic');
+const q6text = document.getElementById('q6text');
+const finalArea = document.getElementById('finalArea');
+const finalMsg = document.getElementById('finalMsg');
+const userText = document.getElementById('userText');
+const playMix = document.getElementById('playMix');
+const startSing = document.getElementById('startSing');
+const stopSing = document.getElementById('stopSing');
+const playback = document.getElementById('playback');
+const downloadRec = document.getElementById('downloadRec');
+const recordControls = document.getElementById('recordControls');
+
+let mediaRecorder, recordedBlobs;
+let fadeIntervalId = null;
+let stopTimeoutId = null;
+
+function handleQ6Submit(){
+  const val = q6text.value.trim();
+  if(val.length === 0){ mark('r6', false, 'Waste time! Ekri yon fraz.'); return; }
+  mark('r6', true, 'Mèsi! Good job!');
+  finalArea.style.display = 'block';
+  finalMsg.textContent = 'Bravo! Ou rive nan fen quiz la — chante si ou vle.';
+  userText.textContent = 'Repons ou: "' + val + '"';
+  playMix.disabled = false;
+  startSing.disabled = false;
+  downloadRec.disabled = true;
+  playback.style.display = 'none';
+  recordControls.textContent = 'Opsyon: Klike "Start Singing" pou kòmanse mizik + anrejistreman. Rekò a sispann lè mizik la rive 90s oswa lè ou klike Stop.';
+}
+
+/* Clear previous timers/intervals */
+function clearMusicTimers(){
+  if(fadeIntervalId){ clearInterval(fadeIntervalId); fadeIntervalId = null; }
+  if(stopTimeoutId){ clearTimeout(stopTimeoutId); stopTimeoutId = null; }
+}
+
+/* Play from 7s, fade in step-by-step, stop at 90s */
+function playIntroFrom7To90(){
+  clearMusicTimers();
+  try{ music.pause(); } catch(e){}
+  music.currentTime = 7;
+  // start volume very low
+  music.volume = 0.0;
+  const fadeDurationSec = 30; // total duration of fade-in (seconds)
+  const fadeSteps = 15;       // number of steps
+  const stepMs = Math.floor((fadeDurationSec * 1000) / fadeSteps);
+  const volStep = 1 / fadeSteps;
+  let stepCount = 0;
+
+  // play
+  const p = music.play();
+  if(p && p.catch){ p.catch(()=>{/* browser may block if not user gesture - but button click is user gesture */}); }
+
+  // set interval for step-wise volume increase
+  fadeIntervalId = setInterval(()=>{
+    stepCount++;
+    let newVol = Math.min(1, music.volume + volStep);
+    music.volume = Number(newVol.toFixed(3));
+    if(stepCount >= fadeSteps){
+      clearInterval(fadeIntervalId);
+      fadeIntervalId = null;
+    }
+  }, stepMs);
+
+  // stop when reaching 90s (i.e., play until time = 90)
+  const stopAfterMs = Math.max(0, (90 - 7) * 1000); // 83s -> ms
+  stopTimeoutId = setTimeout(()=>{
+    try{ music.pause(); }catch(e){}
+    clearMusicTimers();
+  }, stopAfterMs);
+}
+
+/* Play button */
+playMix.addEventListener('click', () => {
+  playIntroFrom7To90();
+});
+
+/* RECORDING: start music + start recording simultaneously */
+startSing.addEventListener('click', async () => {
+  // request mic permission & start recording
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    recordControls.textContent = 'Recording not supported in this browser.';
+    return;
   }
 
-  document.querySelectorAll('.btn').forEach(btn=>{
-    btn.addEventListener('click', function(){
-      const q = this.getAttribute('data-q');
-      if(q==='6'){
-        const val = document.getElementById('q6text').value.trim();
-        if(val.length>0){
-          markResult('r6', true, 'Mèsi! Good job!');
-        } else {
-          markResult('r6', false, 'Waste time! Ekri yon fraz.');
-          playBad(7000);
-        }
-        return;
-      }
+  startSing.disabled = true;
+  stopSing.disabled = false;
+  recordedBlobs = [];
 
-      const chosen = document.querySelector('input[name="q'+q+'"]:checked');
-      if(!chosen){
-        markResult('r'+q, false, 'Chwazi yon repons tanpri.');
-        return;
-      }
-      const val = chosen.value;
-      const correctMap = {
-        '1':'ayiti',
-        '2':'nemours',
-        '3':'kreyol',
-        '4':'dans',
-        '5':'sakso'
-      };
-      const ok = (val === correctMap[q]);
-      if(ok){
-        markResult('r'+q, true, 'Good job!');
-      } else {
-        markResult('r'+q, false, 'Waste time!');
-        playBad(7000);
-      }
-    });
-  });
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = (e) => {
+      if(e.data && e.data.size > 0) recordedBlobs.push(e.data);
+    };
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(recordedBlobs, { type: 'audio/webm' });
+      playback.src = URL.createObjectURL(blob);
+      playback.style.display = 'block';
+      downloadRec.href = playback.src;
+      downloadRec.setAttribute('download','singing.webm');
+      downloadRec.disabled = false;
+      recordControls.textContent = 'Anrejistreman fini — tande anwo a, telechaje si ou vle.';
+    };
 
-  // allow Enter key in textarea to submit for q6
-  document.getElementById('q6text').addEventListener('keydown', function(e){
-    if(e.key==='Enter' && !e.shiftKey){
-      e.preventDefault();
-      document.querySelector('button[data-q="6"]').click();
+    mediaRecorder.start();
+    recordControls.textContent = 'Rekò kòmanse. Ou ap anrejistre...';
+
+    // start music playback (with fade-in) from 7s -> 90s
+    playIntroFrom7To90();
+
+    // ensure recording stops when music stops (at 90s)
+    // create timeout that stops recorder a little after music stops
+    if(stopTimeoutId) {
+      // stopTimeoutId already set by playIntroFrom7To90; attach another to stop recorder
+      const extra = 200; // small delay to ensure final audio captured
+      const remaining = Math.max(0, (90 - music.currentTime) * 1000) + extra;
+      setTimeout(()=> stopRecording(), remaining);
+    } else {
+      // fallback: stop after 2 minutes just in case
+      setTimeout(()=> stopRecording(), 120000);
     }
-  });
-})();
+
+  } catch(err){
+    recordControls.textContent = 'Pa jwenn aksè mikwofòn. Tcheke pèmisyon.';
+    startSing.disabled = false;
+    stopSing.disabled = true;
+  }
+});
+
+/* Manual stop */
+stopSing.addEventListener('click', () => { stopRecording(); });
+
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state !== 'inactive'){
+    mediaRecorder.stop();
+  }
+  try{ music.pause(); }catch(e){}
+  clearMusicTimers();
+  startSing.disabled = false;
+  stopSing.disabled = true;
+}
+
+/* downloadRec behavior: nothing special (href set on stop) */
+downloadRec.addEventListener('click', (e)=>{
+  if(downloadRec.disabled) e.preventDefault();
+});
+
+/* safety: when music ends by itself (some browsers fire ended), clear timers */
+music.addEventListener('ended', ()=>{ clearMusicTimers(); });
+
 </script>
-</body>
-        </html>
+                                                                     </body>
