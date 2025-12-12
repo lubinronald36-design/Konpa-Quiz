@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ht">
 <head>
@@ -292,3 +293,116 @@
 </script>
 </body>
 </html>
+
+
+Ronald Lubin <lubinronald36@gmail.com>
+12:33 PM (0 minutes ago)
+to me
+
+<!doctype html>
+<html lang="ht">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Konpa Quiz — Konpa Answer Game</title>
+
+<style>
+/* (style untouched — same as your version) */
+</style>
+
+</head>
+<body>
+
+<div class="wrap">
+    
+    <header>
+        <h1>Konpa Quiz — Byenveni!</h1>
+        <p><strong>Konpa Di Ducarmel ehben quiz teacher Ronald pou nou kapab tande gratis.</strong></p>
+        <p>Repon kesyon yo sou Konpa. Si w repon kòrèk, ou wè "Good job!". Si w pa repon kòrèk, mizik la jwe pou kèk segonn epi li montre "Waste time!".</p>
+    </header>
+
+    <!-- … ALL QUESTIONS SAME … -->
+
+    <footer>
+        <div class="small">© Konpa Answer Game</div>
+        <div class="small">Bon chans! Réponn epi tcheke mizik si gen erè.</div>
+    </footer>
+
+    <!-- AUDIO -->
+    <audio id="konpaMusic" preload="auto">
+        <source src="ducarmel.mp3" type="audio/mpeg">
+        Okenn audio pa disponib.
+    </audio>
+
+</div>
+
+<script>
+(function(){
+
+    const audio = document.getElementById('konpaMusic');
+
+    // Modified: play only from 7s to 45s
+    const playBad = () => {
+        audio.currentTime = 7;   // Start at 7 seconds
+        audio.play();
+
+        // Stop at 45 seconds → 45 - 7 = 38 seconds
+        setTimeout(() => {
+            audio.pause();
+        }, 38000);
+    };
+
+    function markResult(id, ok, text){
+        const el = document.getElementById(id);
+        el.textContent = text;
+        el.classList.remove('good','bad');
+        el.classList.add(ok ? 'good' : 'bad');
+    }
+
+    document.querySelectorAll('.btn').forEach(btn=>{
+        btn.addEventListener('click', function(){
+            const q = this.getAttribute('data-q');
+
+            if(q==='6'){
+                const val = document.getElementById('q6text').value.trim();
+                if(val.length>0){
+                    markResult('r6', true, 'Mèsi! Good job!');
+                } else {
+                    markResult('r6', false, 'Waste time! Ekri yon fraz.');
+                    playBad();
+                }
+                return;
+            }
+
+            const chosen = document.querySelector('input[name="q'+q+'"]:checked');
+            if(!chosen){
+                markResult('r'+q, false, 'Chwazi yon repons tanpri.');
+                return;
+            }
+
+            const val = chosen.value;
+            const correctMap = {
+                '1':'ayiti',
+                '2':'nemours',
+                '3':'kreyol',
+                '4':'dans',
+                '5':'sakso'
+            };
+
+            const ok = (val === correctMap[q]);
+
+            if(ok){
+                markResult('r'+q, true, 'Good job!');
+            } else {
+                markResult('r'+q, false, 'Waste time!');
+                playBad();
+            }
+
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
+
